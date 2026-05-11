@@ -8,8 +8,8 @@
     <style>
         .input { width: 100%; padding: 10px; margin-top: 4px; border-radius: 8px; background: #0f172a; border: 1px solid #1e293b; color: white; transition: all 0.2s; font-family: monospace; font-size: 13px; }
         .label-padrao { display: block; text-transform: uppercase; font-size: 9px; color: #64748b; font-weight: bold; letter-spacing: 0.05em; }
-        /* GARANTE QUE O MODAL COMECE FECHADO */
-        #modalRateio { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        /* CSS para garantir que o modal comece invisível */
+        #modalRateio { display: none !important; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
     </style>
 </head>
 <body class="bg-slate-900 text-white font-sans">
@@ -117,8 +117,8 @@
         const parseBR = (v) => parseFloat(v.replace(/\./g, '').replace(',', '.')) || 0;
         const formatBR = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-        function abrirRateio() { document.getElementById('modalRateio').style.display = 'flex'; }
-        function fecharRateio() { document.getElementById('modalRateio').style.display = 'none'; }
+        function abrirRateio() { document.getElementById('modalRateio').style.setProperty('display', 'flex', 'important'); }
+        function fecharRateio() { document.getElementById('modalRateio').style.setProperty('display', 'none', 'important'); }
         
         function aplicarRateio() {
             const fT = parseBR(document.getElementById('freteTotalNF').value);
