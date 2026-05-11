@@ -7,22 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .input { width: 100%; padding: 10px; margin-top: 4px; border-radius: 8px; background: #0f172a; border: 1px solid #1e293b; color: white; transition: all 0.2s; font-family: monospace; font-size: 13px; }
-        .input:focus { outline: 2px solid #3b82f6; border-color: transparent; }
         .label-padrao { display: block; text-transform: uppercase; font-size: 9px; color: #64748b; font-weight: bold; letter-spacing: 0.05em; }
-        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+        /* GARANTE QUE O MODAL COMECE FECHADO */
+        #modalRateio { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
     </style>
 </head>
 <body class="bg-slate-900 text-white font-sans">
 
-    <div id="modalRateio" class="modal flex items-center justify-center">
+    <div id="modalRateio" class="items-center justify-center">
         <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 shadow-2xl max-w-sm w-full">
-            <h2 class="text-blue-400 font-bold uppercase text-xs mb-6 border-b border-slate-700 pb-2">Assistente de Rateio</h2>
+            <h2 class="text-blue-400 font-bold uppercase text-[10px] mb-6 border-b border-slate-700 pb-2">Assistente de Rateio</h2>
             <div class="space-y-4">
-                <div><label class="label-padrao">Frete Total da Nota</label><input id="freteTotalNF" class="input" value="0,00" /></div>
-                <div><label class="label-padrao">Valor Total dos Produtos</label><input id="valorTotalNF" class="input" value="0,00" /></div>
+                <div><label class="label-padrao">Frete Total Nota</label><input id="freteTotalNF" class="input" value="0,00" /></div>
+                <div><label class="label-padrao">Valor Total Produtos</label><input id="valorTotalNF" class="input" value="0,00" /></div>
                 <div class="flex gap-2 pt-4">
-                    <button onclick="fecharRateio()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-xs font-bold uppercase">Cancelar</button>
-                    <button onclick="aplicarRateio()" class="flex-1 bg-blue-600 hover:bg-blue-500 py-3 rounded-xl text-xs font-bold uppercase">Aplicar</button>
+                    <button onclick="fecharRateio()" class="flex-1 bg-slate-700 py-3 rounded-xl text-[10px] font-bold uppercase">Sair</button>
+                    <button onclick="aplicarRateio()" class="flex-1 bg-blue-600 py-3 rounded-xl text-[10px] font-bold uppercase">Ratear</button>
                 </div>
             </div>
         </div>
@@ -31,15 +31,15 @@
     <div class="max-w-7xl mx-auto p-6">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold">📈 Lucrum Pro <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">v4.9</span></h1>
-            <div id="statusSrv" class="px-4 py-1 bg-slate-800 rounded-full text-[10px] text-blue-400 font-mono border border-slate-700 uppercase">Servidor Online</div>
+            <div id="statusSrv" class="px-4 py-1 bg-slate-800 rounded-full text-[10px] text-blue-400 font-mono border border-slate-700 uppercase">Online</div>
         </div>
 
         <div class="grid md:grid-cols-4 gap-4">
             <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
-                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700/50 pb-2">📦 Entrada</h2>
+                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700 pb-2">📦 Entrada</h2>
                 <div class="space-y-3">
                     <input id="codigo" class="input" placeholder="Referência" />
-                    <input id="nome" class="input" placeholder="Descrição do Produto" />
+                    <input id="nome" class="input" placeholder="Descrição" />
                     <div class="grid grid-cols-2 gap-2">
                         <div><label class="label-padrao">Valor (R$)</label><input id="valor" class="input text-blue-400 font-bold" value="0,00" /></div>
                         <div><label class="label-padrao">IPI (%)</label><input id="ipi" class="input" value="0,00" /></div>
@@ -48,20 +48,20 @@
                         <label class="label-padrao">Frete Unit. (R$)</label>
                         <div class="flex gap-2">
                             <input id="frete" class="input" value="0,00" />
-                            <button onclick="abrirRateio()" class="mt-1 bg-slate-700 px-3 rounded-lg hover:bg-blue-600 transition-all">🚚</button>
+                            <button onclick="abrirRateio()" class="mt-1 bg-slate-700 px-3 rounded-lg hover:bg-blue-600">🚚</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
-                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700/50 pb-2">🧾 Fiscal (MG)</h2>
+                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700 pb-2">🧾 Fiscal (MG)</h2>
                 <div class="space-y-2">
-                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[10px] uppercase font-bold cursor-pointer">ST? <input type="checkbox" id="temST" onchange="toggleRegras()"></label>
+                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[9px] font-bold uppercase">ST? <input type="checkbox" id="temST" onchange="toggleRegras()"></label>
                     <div id="campoMVA" class="hidden"><input id="mva" class="input" placeholder="MVA%" value="0,00"></div>
-                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[10px] uppercase font-bold cursor-pointer">Redução? <input type="checkbox" id="temReducao" onchange="toggleRegras()"></label>
+                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[9px] font-bold uppercase">Redução? <input type="checkbox" id="temReducao" onchange="toggleRegras()"></label>
                     <div id="campoReducao" class="hidden"><input id="reducao" class="input" placeholder="Redução%" value="0,00"></div>
-                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[10px] uppercase font-bold text-orange-400">Isento DIFAL? <input type="checkbox" id="isentoNCM"></label>
+                    <label class="flex justify-between p-2 bg-slate-900/50 rounded text-[9px] font-bold text-orange-400 uppercase">Isento DIFAL? <input type="checkbox" id="isentoNCM"></label>
                     <div class="grid grid-cols-2 gap-2">
                         <input id="inter" value="12,00" class="input text-center" />
                         <input id="intra" value="18,00" class="input text-center" />
@@ -70,15 +70,15 @@
             </div>
 
             <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 text-center">
-                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700/50 pb-2">📊 Margem</h2>
+                <h2 class="mb-4 text-slate-400 uppercase text-[10px] border-b border-slate-700 pb-2">📊 Margem</h2>
                 <label class="label-padrao">Simples Nacional (%)</label><input id="simples" class="input mb-4" value="0,00" />
                 <label class="label-padrao">Margem de Contribuição (%)</label><input id="margem" class="input text-green-400 font-bold" value="0,00" />
             </div>
 
             <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 text-center">
-                <h2 class="mb-4 text-orange-400 uppercase text-[10px] border-b border-slate-700/50 pb-2">💳 Saída</h2>
-                <label class="label-padrao">Taxa À Vista (%)</label><input id="taxaVista" value="1,37" class="input text-center mb-4" />
-                <label class="label-padrao">Taxa 12x (%)</label><input id="taxa12x" value="12,40" class="input text-center" />
+                <h2 class="mb-4 text-orange-400 uppercase text-[10px] border-b border-slate-700 pb-2">💳 Saída</h2>
+                <label class="label-padrao">PIX (%)</label><input id="taxaVista" value="1,37" class="input text-center mb-4" />
+                <label class="label-padrao">12x (%)</label><input id="taxa12x" value="12,40" class="input text-center" />
             </div>
         </div>
 
@@ -90,8 +90,8 @@
                 <span class="label-padrao text-green-500">À Vista / PIX</span><p id="vendaVista" class="text-4xl font-bold text-green-400 font-mono">R$ 0,00</p>
             </div>
             <div class="bg-slate-800 p-6 rounded-3xl border-2 border-blue-500/30 flex flex-col justify-between">
-                <input type="password" id="senha" class="input" placeholder="CHAVE" />
-                <button onclick="calcular()" class="mt-2 w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black uppercase text-xs transition-all">Calcular</button>
+                <input type="password" id="senha" class="input text-center" placeholder="SENHA" />
+                <button onclick="calcular()" class="mt-2 w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black uppercase text-xs">Calcular</button>
             </div>
         </div>
 
@@ -102,10 +102,10 @@
                         <th class="px-4 py-4">Produto</th>
                         <th class="px-4 py-4 text-right">Custo MG</th>
                         <th class="px-4 py-4 text-right text-orange-400">DIFAL/ST</th>
-                        <th class="px-4 py-4 text-right text-blue-400">Lucro Líq</th>
+                        <th class="px-4 py-4 text-right text-blue-400">Lucro Liq</th>
                         <th class="px-4 py-4 text-right text-green-400">À Vista</th>
                         <th class="px-4 py-4 text-right">12x</th>
-                        <th class="px-4 py-4 w-12 text-center">🗑️</th>
+                        <th class="px-4 py-4 text-center">🗑️</th>
                     </tr>
                 </thead>
                 <tbody id="gridCorpo" class="divide-y divide-slate-700/50"></tbody>
@@ -137,7 +137,7 @@
 
         async function calcular() {
             const status = document.getElementById('statusSrv');
-            status.innerText = "Calculando...";
+            status.innerText = "...";
             const payload = {
                 senha: document.getElementById('senha').value,
                 valor: parseBR(document.getElementById('valor').value),
